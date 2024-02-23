@@ -10,6 +10,7 @@ from sklearn.metrics import mean_absolute_error
 
 
 #Loading data and removing high cardinality categorical columns
+print('Loading data...')
 data = pd.read_csv('futcity/futuristic_city_traffic.csv')
 y = data['Traffic Density']
 X = data.drop(['Traffic Density', 'Energy Consumption'], axis=1)  # Check for improvements after removing economic status
@@ -23,6 +24,8 @@ cols = cat_cols + num_cols
 X_train = X_train_full[cols].copy()
 X_valid = X_valid_full[cols].copy()
 
+print('Loaded data')
+print('Processing...')
 
 #Preprocessing for numerical data
 num_trans = SimpleImputer(strategy = 'constant')
