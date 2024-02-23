@@ -8,7 +8,7 @@ from sklearn.preprocessing import OneHotEncoder
 
 
 #Loading data and removing high cardinality categorical columns
-data = pd.read_csv('D:\Datasets\futcity\futuristic_city_traffic.csv')
+data = pd.read_csv("futcity\futuristic_city_traffic.csv")
 y = data['Traffic Density']
 X = data.drop(['Traffic Density', 'Energy Consumption'], axis=1)  # Check for improvements after removing economic status
 
