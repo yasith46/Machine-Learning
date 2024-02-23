@@ -29,7 +29,7 @@ num_trans = SimpleImputer(strategy = 'constant')
 
 #Preprocessing for categorical data
 cat_trans = Pipeline(steps=[
-    ('imputer', SimpleImputer(strategy = 'most_frequency')),
+    ('imputer', SimpleImputer(strategy = 'most_frequent')),
     ('onehot', OneHotEncoder(handle_unknown = 'ignore'))
 ])
 
