@@ -5,10 +5,12 @@ from sklearn.compose import ColumnTransformer
 from sklearn.pipeline import Pipeline
 from sklearn.impute import SimpleImputer
 from sklearn.preprocessing import OneHotEncoder
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error
 
 
 #Loading data and removing high cardinality categorical columns
-data = pd.read_csv("futcity\futuristic_city_traffic.csv")
+data = pd.read_csv('futcity/futuristic_city_traffic.csv')
 y = data['Traffic Density']
 X = data.drop(['Traffic Density', 'Energy Consumption'], axis=1)  # Check for improvements after removing economic status
 
@@ -22,4 +24,34 @@ X_train = X_train_full[cols].copy()
 X_valid = X_valid_full[cols].copy()
 
 
-X_train.head()
+#Preprocessing for numerical data
+num_trans = SimpleImputer(strategy = 'constant')
+
+#Preprocessing for categorical data
+cat_trans = Pipeline(steps=[
+    ('imputer', SimpleImputer(strategy = 'most_frequency')),
+    ('onehot', OneHotEncoder(handle_unknown = 'ignore'))
+])
+
+preprocessor = ColumnTransformer(
+    transformers = [
+        ('num', num_trans, num_cols),
+        ('cat', cat_trans, cat_cols)
+    ]
+)
+
+#Creating model
+model = RandomForestRegressor(n_estimators = 100, random_state = 0)
+
+
+#Evaluating
+my_pipeline = Pipeline(steps = [
+    ('preprocessor', preprocessor),
+    ('model', model)
+])
+
+my_pipeline.fit(X_train, y_train)
+preds = my_pipeline.predict(X_valid)
+
+score = mean_absolute_error(y_valid, preds)
+print('MAE: ', score)
