@@ -59,8 +59,10 @@ match resel:
 
 
 #Converting to dataframe
-query = [city, vehicle, weather, econ, date, hod, speed, ph, re]
+query = [1, 1, 1, 1, 1, hod, speed, ph, re]
 data = pd.DataFrame(query).T
 
-data.columns = ['City','Vehicle Type','Weather','Economic Condition','Day Of Week','Hour Of Day','Speed','Is Peak Hour','Random Event Occurred']
+data.columns = [city,vehicle, weather, econ, date,'Hour Of Day','Speed','Is Peak Hour','Random Event Occurred']
 
+prediction = model.preds(data[])
+print(prediction)
